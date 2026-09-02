@@ -70,6 +70,7 @@
   }
   
   .font-display { font-family: 'Fraunces', serif; }
+  
   h1, h2, h3 { text-wrap: balance; }
   p { text-wrap: pretty; }
   
@@ -100,24 +101,13 @@
     -webkit-text-fill-color: transparent; color: transparent;
   }
   
-  /* ===== ПЕРЕКЛЮЧАТЕЛЬ: жёсткая фиксация через обёртку (работает даже на iOS Safari) ===== */
-  .theme-toggle-wrapper {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    z-index: 99999 !important;
-    pointer-events: none !important; /* Пропускает клики сквозь обёртку */
-  }
-  
+  /* ===== ПЕРЕКЛЮЧАТЕЛЬ: фиксация дублируется в JS ===== */
   #themeToggle {
-    position: absolute !important;
-    top: calc(24px + env(safe-area-inset-top, 0px)) !important;
-    right: calc(24px + env(safe-area-inset-right, 0px)) !important;
-    left: auto !important;
-    bottom: auto !important;
-    pointer-events: auto !important; /* Включает клики только для самой кнопки */
+    position: fixed !important;
+    top: calc(48px + env(safe-area-inset-top, 0px)) !important;
+    right: calc(16px + env(safe-area-inset-right, 0px)) !important;
+    left: auto !important; bottom: auto !important;
+    z-index: 2147483647;
     width: 96px; height: 46px;
     border-radius: 999px;
     border: 1px solid var(--border-strong);
@@ -126,19 +116,16 @@
     background: transparent;
     box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.22), 0 6px 18px -8px rgba(0, 0, 0, 0.35);
     transition: border-color 0.5s, box-shadow 0.4s;
-    transform: none !important;
-    -webkit-transform: none !important;
   }
   #themeToggle:hover { box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.22), 0 0 22px -4px rgba(201, 165, 92, 0.55); }
   
   @media (min-width: 1101px) {
     #themeToggle { right: calc(3% + 78px + env(safe-area-inset-right, 0px)) !important; }
   }
-  
   @media (max-width: 480px) {
     #themeToggle { 
-      top: calc(16px + env(safe-area-inset-top, 0px)) !important;
-      right: calc(16px + env(safe-area-inset-right, 0px)) !important;
+      top: calc(10px + env(safe-area-inset-top, 0px)) !important;
+      right: calc(12px + env(safe-area-inset-right, 0px)) !important;
       width: 80px; height: 38px;
     }
     #themeToggle .tt-knob { width: 28px; height: 28px; top: 4px; left: 4px; }
@@ -149,17 +136,13 @@
   #themeToggle .tt-sky {
     position: absolute; inset: 0;
     background: linear-gradient(180deg, #e3d5b2 0%, #f3ead6 100%);
-    transition: opacity 0.5s ease;
-    opacity: 1;
+    transition: opacity 0.5s ease; opacity: 1;
   }
   #themeToggle .tt-sky::after {
-    content: '';
-    position: absolute; right: -8px; bottom: -12px;
-    width: 26px; height: 26px; border-radius: 50%;
-    background: #fbf4e4;
+    content: ''; position: absolute; right: -8px; bottom: -12px;
+    width: 26px; height: 26px; border-radius: 50%; background: #fbf4e4;
     box-shadow: -20px 4px 0 -4px #fbf4e4, -38px 8px 0 -8px #fbf4e4, -14px -10px 0 -6px #fbf4e4, -30px -6px 0 -7px #f6edda;
   }
-  
   #themeToggle .tt-night {
     position: absolute; inset: 0;
     background:
@@ -170,16 +153,13 @@
       radial-gradient(1.3px 1.3px at 26% 84%, #e8d4a0 98%, transparent),
       radial-gradient(1.1px 1.1px at 40% 46%, #c9a55c 98%, transparent),
       linear-gradient(180deg, #0a1410 0%, #142619 100%);
-    transition: opacity 0.5s ease;
-    opacity: 0;
+    transition: opacity 0.5s ease; opacity: 0;
   }
-  
   #themeToggle .tt-knob {
     position: absolute; top: 5px; left: 5px;
     width: 36px; height: 36px; border-radius: 50%;
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    transform: translateX(0);
-    z-index: 2;
+    transform: translateX(0); z-index: 2;
   }
   #themeToggle .tt-sun, #themeToggle .tt-moon { position: absolute; inset: 0; border-radius: 50%; transition: opacity 0.4s ease, transform 0.5s ease; }
   #themeToggle .tt-sun {
@@ -206,22 +186,17 @@
   .meander {
     height: 14px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'%3E%3Cpath d='M0 13 H28 M2 13 V1 H20 V9 H9 V5 H15 V7 H12' fill='none' stroke='%2397762a' stroke-width='1.4'/%3E%3C/svg%3E");
-    background-repeat: repeat-x;
-    background-position: center top;
-    opacity: 0.45;
-    pointer-events: none;
+    background-repeat: repeat-x; background-position: center top;
+    opacity: 0.45; pointer-events: none;
   }
   :root[data-theme="dark"] .meander {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'%3E%3Cpath d='M0 13 H28 M2 13 V1 H20 V9 H9 V5 H15 V7 H12' fill='none' stroke='%23c9a55c' stroke-width='1.4'/%3E%3C/svg%3E");
   }
   
   .column {
-    position: absolute;
-    top: 0; bottom: 0;
-    width: 68px;
+    position: absolute; top: 0; bottom: 0; width: 68px;
     background: linear-gradient(90deg, transparent 0%, var(--accent) 10%, var(--accent-soft) 50%, var(--accent) 90%, transparent 100%);
-    opacity: 0.18;
-    pointer-events: none;
+    opacity: 0.18; pointer-events: none;
     -webkit-mask-image:
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Crect x='0' y='0' width='60' height='7' fill='%23000'/%3E%3Crect x='4' y='9' width='52' height='6' fill='%23000'/%3E%3Crect x='8' y='17' width='44' height='5' fill='%23000'/%3E%3C/svg%3E"),
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Crect x='8' y='8' width='44' height='5' fill='%23000'/%3E%3Crect x='4' y='15' width='52' height='6' fill='%23000'/%3E%3Crect x='0' y='23' width='60' height='7' fill='%23000'/%3E%3C/svg%3E"),
@@ -247,24 +222,19 @@
   
   .mascot-wrap { position: relative; display: inline-block; animation: mascot-float 7s ease-in-out infinite; }
   .mascot-wrap::before {
-    content: '';
-    position: absolute; inset: -14px;
-    border: 1px dashed rgba(154, 122, 46, 0.25);
-    border-radius: 50%;
+    content: ''; position: absolute; inset: -14px;
+    border: 1px dashed rgba(154, 122, 46, 0.25); border-radius: 50%;
     animation: rotate 40s linear infinite;
   }
   :root[data-theme="dark"] .mascot-wrap::before { border-color: rgba(201, 165, 92, 0.18); }
   .mascot-img {
-    display: block;
-    width: min(690px, 100vw - 32px);
-    height: auto;
+    display: block; width: min(690px, 100vw - 32px); height: auto;
     filter: drop-shadow(0 0 38px var(--mascot-glow)) drop-shadow(0 18px 40px var(--mascot-sh));
   }
   @keyframes mascot-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
   
   .footer-mascot {
-    width: 56px; height: 56px;
-    border-radius: 50%;
+    width: 56px; height: 56px; border-radius: 50%;
     border: 1px solid var(--border-strong);
     background: radial-gradient(circle, rgba(154, 122, 46, 0.14), rgba(154, 122, 46, 0.02) 75%);
     overflow: hidden; flex-shrink: 0;
@@ -351,15 +321,21 @@
   
   .quote-mark { font-family: 'Fraunces', serif; font-size: 120px; line-height: 1; color: var(--accent); opacity: 0.2; position: absolute; top: -30px; left: 50%; transform: translateX(-50%); }
   
+  /* ===== МОБИЛЬНАЯ ВЕРСИЯ: чище и компактнее ===== */
   @media (max-width: 640px) {
     .m-hide { display: none !important; }
     .leaf { display: none; }
-    .link-card { padding: 20px 18px; }
-    .link-card .items-start { margin-bottom: 14px; }
-    .stat-card { padding: 16px 12px; }
-    .quote-mark { font-size: 80px; top: -18px; }
+    section { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+    .link-card { padding: 18px 16px; border-radius: 16px; }
+    .link-card .items-start { margin-bottom: 12px; }
+    .icon-wrap { width: 46px; height: 46px; border-radius: 12px; }
+    .stat-card { padding: 14px 10px; }
+    .quote-mark { font-size: 70px; top: -16px; }
     .greek-note { letter-spacing: 0.2em; font-size: 10px; }
     .ornament > span { letter-spacing: 0.18em; }
+    .badge { font-size: 10px; letter-spacing: 0.12em; padding: 6px 12px; }
+    .pill-btn { padding: 12px 22px; font-size: 13px; }
+    .mascot-img { width: min(560px, 100vw - 24px); }
   }
   
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
@@ -370,17 +346,14 @@
 </head>
 <body>
 
-<!-- ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ: обёртка гарантирует фиксацию на экране во всех браузерах (включая iOS Safari) -->
-<div class="theme-toggle-wrapper">
-  <button id="themeToggle" aria-label="Переключить тему" title="Сменить тему">
-    <span class="tt-sky" aria-hidden="true"></span>
-    <span class="tt-night" aria-hidden="true"></span>
-    <span class="tt-knob" aria-hidden="true">
-      <span class="tt-sun"></span>
-      <span class="tt-moon"><i></i><i></i><i></i></span>
-    </span>
-  </button>
-</div>
+<button id="themeToggle" aria-label="Переключить тему" title="Сменить тему">
+  <span class="tt-sky" aria-hidden="true"></span>
+  <span class="tt-night" aria-hidden="true"></span>
+  <span class="tt-knob" aria-hidden="true">
+    <span class="tt-sun"></span>
+    <span class="tt-moon"><i></i><i></i><i></i></span>
+  </span>
+</button>
 
 <div class="bg-gradient"></div>
 <canvas class="bg-canvas" id="bgCanvas"></canvas>
@@ -394,13 +367,12 @@
     <div class="column column-l" aria-hidden="true"></div>
     <div class="column column-r" aria-hidden="true"></div>
 
+    <!-- Hero -->
     <section class="min-h-screen flex flex-col items-center justify-center px-5 sm:px-6 pt-24 pb-12 relative">
       <svg class="leaf" data-depth="1" style="top: 12%; left: 4%; width: 130px;" viewBox="0 0 100 100" fill="currentColor"><path d="M50 5 C 30 25, 25 50, 50 95 C 75 50, 70 25, 50 5 Z M50 5 L 50 95" stroke="currentColor" stroke-width="0.5"/></svg>
       <svg class="leaf" data-depth="2" style="top: 22%; right: 6%; width: 95px; transform: rotate(45deg);" viewBox="0 0 100 100" fill="currentColor"><path d="M50 5 C 30 25, 25 50, 50 95 C 75 50, 70 25, 50 5 Z M50 5 L 50 95" stroke="currentColor" stroke-width="0.5"/></svg>
       <svg class="leaf" data-depth="1.5" style="bottom: 18%; left: 8%; width: 75px; transform: rotate(-15deg);" viewBox="0 0 100 100" fill="currentColor"><path d="M50 5 C 30 25, 25 50, 50 95 C 75 50, 70 25, 50 5 Z M50 5 L 50 95" stroke="currentColor" stroke-width="0.5"/></svg>
       <svg class="leaf" data-depth="2.5" style="bottom: 25%; right: 10%; width: 60px; transform: rotate(60deg);" viewBox="0 0 100 100" fill="currentColor"><path d="M50 5 C 30 25, 25 50, 50 95 C 75 50, 70 25, 50 5 Z M50 5 L 50 95" stroke="currentColor" stroke-width="0.5"/></svg>
-      <svg class="leaf" data-depth="1.2" style="top: 55%; left: 13%; width: 85px; transform: rotate(-30deg);" viewBox="0 0 100 100" fill="currentColor"><path d="M50 5 C 30 25, 25 50, 50 95 C 75 50, 70 25, 50 5 Z M50 5 L 50 95" stroke="currentColor" stroke-width="0.5"/></svg>
-      <svg class="leaf" data-depth="2.2" style="top: 40%; right: 15%; width: 110px; transform: rotate(18deg);" viewBox="0 0 100 100" fill="currentColor"><path d="M50 5 C 30 25, 25 50, 50 95 C 75 50, 70 25, 50 5 Z M50 5 L 50 95" stroke="currentColor" stroke-width="0.5"/></svg>
       
       <div class="max-w-3xl mx-auto text-center w-full">
         <div class="reveal mb-8 flex justify-center">
@@ -442,46 +414,7 @@
       </div>
     </section>
 
-    <section class="py-16 sm:py-24 px-5 sm:px-6 relative">
-      <svg class="leaf" data-depth="1.6" style="top: 12%; right: 5%; width: 90px; transform: rotate(30deg);" viewBox="0 0 100 100" fill="currentColor"><path d="M50 5 C 30 25, 25 50, 50 95 C 75 50, 70 25, 50 5 Z M50 5 L 50 95" stroke="currentColor" stroke-width="0.5"/></svg>
-      <div class="max-w-6xl mx-auto">
-        <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
-          <div class="reveal">
-            <div class="platform-tag mb-5">Наша философия</div>
-            <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-light leading-[1.1] mb-7">
-              История <br>
-              <em class="hero-mark font-medium">одной заботы</em>
-            </h2>
-            <p class="m-hide text-[var(--fg-soft)] leading-relaxed mb-5" style="opacity: 0.8;">
-              Всё началось с вопроса: «Почему мы так много работаем на здоровье, но так мало для здоровья?». Команда ХилСорт собрала знания о долголетии из разных уголков мира — от японских традиций до средиземноморских практик.
-            </p>
-            <p class="m-hide text-[var(--muted)] leading-relaxed text-sm">
-              Название родилось не случайно. Это не просто «исцеление» (Heal). Это — «особый вид исцеления» (Sort). Тот, что работает мягко, но уверенно. Тот, что возвращает энергию для главного: для семьи, прогулок и новых побед.
-            </p>
-          </div>
-          
-          <div class="grid grid-cols-2 gap-3 sm:gap-4 reveal" style="transition-delay: 0.15s">
-            <div class="stat-card">
-              <div class="font-display text-3xl sm:text-4xl font-medium mb-1 hero-mark">100<span class="text-xl sm:text-2xl">%</span></div>
-              <div class="text-[10px] sm:text-xs text-[var(--muted)] tracking-wide">прозрачные составы</div>
-            </div>
-            <div class="stat-card">
-              <div class="font-display text-3xl sm:text-4xl font-medium mb-1 hero-mark">0</div>
-              <div class="text-[10px] sm:text-xs text-[var(--muted)] tracking-wide">скрытых ингредиентов</div>
-            </div>
-            <div class="stat-card">
-              <div class="font-display text-3xl sm:text-4xl font-medium mb-1 hero-mark">24/7</div>
-              <div class="text-[10px] sm:text-xs text-[var(--muted)] tracking-wide">сопровождение курса</div>
-            </div>
-            <div class="stat-card">
-              <div class="font-display text-3xl sm:text-4xl font-medium mb-1 hero-mark">1</div>
-              <div class="text-[10px] sm:text-xs text-[var(--muted)] tracking-wide">единый профиль здоровья</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
+    <!-- Ссылки и контакты (теперь сразу после hero) -->
     <section id="links" class="py-16 sm:py-24 px-5 sm:px-6 relative">
       <svg class="leaf" data-depth="1.4" style="top: 8%; left: 6%; width: 95px; transform: rotate(24deg);" viewBox="0 0 100 100" fill="currentColor"><path d="M50 5 C 30 25, 25 50, 50 95 C 75 50, 70 25, 50 5 Z M50 5 L 50 95" stroke="currentColor" stroke-width="0.5"/></svg>
       <div class="max-w-6xl mx-auto">
@@ -569,54 +502,48 @@
       </div>
     </section>
 
+    <!-- История бренда (перенесена в конец, после ссылок) -->
     <section class="py-16 sm:py-24 px-5 sm:px-6 relative">
-      <svg class="leaf" data-depth="1.8" style="bottom: 10%; right: 6%; width: 100px; transform: rotate(-22deg);" viewBox="0 0 100 100" fill="currentColor"><path d="M50 5 C 30 25, 25 50, 50 95 C 75 50, 70 25, 50 5 Z M50 5 L 50 95" stroke="currentColor" stroke-width="0.5"/></svg>
+      <svg class="leaf" data-depth="1.6" style="top: 12%; right: 5%; width: 90px; transform: rotate(30deg);" viewBox="0 0 100 100" fill="currentColor"><path d="M50 5 C 30 25, 25 50, 50 95 C 75 50, 70 25, 50 5 Z M50 5 L 50 95" stroke="currentColor" stroke-width="0.5"/></svg>
       <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-12 sm:mb-16 reveal">
-          <div class="platform-tag justify-center mb-5">Почему нам доверяют</div>
-          <h2 class="font-display text-3xl sm:text-4xl md:text-6xl font-light mb-4">
-            Принципы <em class="hero-mark font-medium">ХилСорт</em>
-          </h2>
-          <p class="m-hide text-[var(--muted)] max-w-lg mx-auto">Мы не просим верить красивой упаковке. Мы помогаем понять, что находится внутри.</p>
-        </div>
-        
-        <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
-          <div class="link-card reveal">
-            <div class="flex items-start justify-between mb-6">
-              <div class="icon-wrap">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-              </div>
-            </div>
-            <div class="platform-tag mb-3">Прозрачность</div>
-            <h3 class="font-display text-xl sm:text-2xl font-medium mb-2">«Проверьте нас»</h3>
-            <p class="m-hide text-sm text-[var(--muted)] leading-relaxed">Мы раскрываем состав, формы сырья, дозировки, СГР и документы производителя. Вся информация доступна на карточке товара.</p>
+        <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+          <div class="reveal">
+            <div class="platform-tag mb-5">Наша философия</div>
+            <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-light leading-[1.1] mb-7">
+              История <br>
+              <em class="hero-mark font-medium">одной заботы</em>
+            </h2>
+            <p class="m-hide text-[var(--fg-soft)] leading-relaxed mb-5" style="opacity: 0.8;">
+              Всё началось с вопроса: «Почему мы так много работаем на здоровье, но так мало для здоровья?». Команда ХилСорт собрала знания о долголетии из разных уголков мира — от японских традиций до средиземноморских практик.
+            </p>
+            <p class="m-hide text-[var(--muted)] leading-relaxed text-sm">
+              Название родилось не случайно. Это не просто «исцеление» (Heal). Это — «особый вид исцеления» (Sort). Тот, что работает мягко, но уверенно. Тот, что возвращает энергию для главного: для семьи, прогулок и новых побед.
+            </p>
           </div>
           
-          <div class="link-card reveal" style="transition-delay: 0.1s">
-            <div class="flex items-start justify-between mb-6">
-              <div class="icon-wrap">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
+          <div class="grid grid-cols-2 gap-3 sm:gap-4 reveal" style="transition-delay: 0.15s">
+            <div class="stat-card">
+              <div class="font-display text-3xl sm:text-4xl font-medium mb-1 hero-mark">100<span class="text-xl sm:text-2xl">%</span></div>
+              <div class="text-[10px] sm:text-xs text-[var(--muted)] tracking-wide">прозрачные составы</div>
             </div>
-            <div class="platform-tag mb-3">Безопасность</div>
-            <h3 class="font-display text-xl sm:text-2xl font-medium mb-2">Готовы не продать</h3>
-            <p class="m-hide text-sm text-[var(--muted)] leading-relaxed">Если ответы требуют оценки врача, мы не будем продавать любой ценой. Мы порекомендуем обратиться к специалисту.</p>
-          </div>
-          
-          <div class="link-card reveal" style="transition-delay: 0.2s">
-            <div class="flex items-start justify-between mb-6">
-              <div class="icon-wrap">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
-              </div>
+            <div class="stat-card">
+              <div class="font-display text-3xl sm:text-4xl font-medium mb-1 hero-mark">0</div>
+              <div class="text-[10px] sm:text-xs text-[var(--muted)] tracking-wide">скрытых ингредиентов</div>
             </div>
-            <div class="platform-tag mb-3">Сопровождение</div>
-            <h3 class="font-display text-xl sm:text-2xl font-medium mb-2">Не бросаем после</h3>
-            <p class="m-hide text-sm text-[var(--muted)] leading-relaxed">Напоминания о приёме, личный кабинет, контроль динамики. ХилСорт — инструмент использования, а не просто магазин.</p>
+            <div class="stat-card">
+              <div class="font-display text-3xl sm:text-4xl font-medium mb-1 hero-mark">24/7</div>
+              <div class="text-[10px] sm:text-xs text-[var(--muted)] tracking-wide">сопровождение курса</div>
+            </div>
+            <div class="stat-card">
+              <div class="font-display text-3xl sm:text-4xl font-medium mb-1 hero-mark">1</div>
+              <div class="text-[10px] sm:text-xs text-[var(--muted)] tracking-wide">единый профиль здоровья</div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Миссия -->
     <section class="py-16 sm:py-24 px-5 sm:px-6 relative">
       <svg class="leaf" data-depth="1.3" style="top: 18%; left: 7%; width: 80px; transform: rotate(-40deg);" viewBox="0 0 100 100" fill="currentColor"><path d="M50 5 C 30 25, 25 50, 50 95 C 75 50, 70 25, 50 5 Z M50 5 L 50 95" stroke="currentColor" stroke-width="0.5"/></svg>
       <div class="max-w-3xl mx-auto text-center reveal relative">
@@ -667,6 +594,19 @@
 </div>
 
 <script>
+  // ===== ЖЁСТКАЯ ФИКСАЦИЯ ПЕРЕКЛЮЧАТЕЛЯ =====
+  // Принудительно вешаем кнопку прямо в <body> и задаём fixed инлайном —
+  // после этого она НЕ может двигаться со скроллом ни при каких обстоятельствах.
+  (function () {
+    const t = document.getElementById('themeToggle');
+    if (!t) return;
+    document.body.appendChild(t);            // гарантированно прямой потомок body
+    t.style.position = 'fixed';
+    t.style.zIndex = '2147483647';
+    t.style.transform = 'none';
+    t.style.margin = '0';
+  })();
+  
   const rootEl = document.documentElement;
   const toggleBtn = document.getElementById('themeToggle');
   let isDark = rootEl.getAttribute('data-theme') === 'dark';
