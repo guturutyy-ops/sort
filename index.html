@@ -74,6 +74,23 @@
   h1, h2, h3 { text-wrap: balance; }
   p { text-wrap: pretty; }
   
+  /* ===== БЕЛЫЙ ЗАГОЛОВОК ХИЛСОРТ ===== */
+  .hero-title {
+    color: var(--fg);
+    transition: color 0.6s ease;
+  }
+  :root[data-theme="dark"] .hero-title {
+    color: #ffffff;
+  }
+  
+  .footer-brand {
+    color: var(--fg);
+    transition: color 0.6s ease;
+  }
+  :root[data-theme="dark"] .footer-brand {
+    color: #ffffff;
+  }
+  
   .bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
   
   .bg-gradient {
@@ -337,7 +354,17 @@
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
 </style>
 <script>
-  try { if (localStorage.getItem('healsort-theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}
+  // ===== ТЁМНАЯ ТЕМА ПО УМОЛЧАНИЮ =====
+  try { 
+    const saved = localStorage.getItem('healsort-theme');
+    if (saved === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  } catch (e) { 
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
 </script>
 </head>
 <body>
@@ -382,8 +409,8 @@
           </div>
         </div>
 
-        <h1 class="font-display text-5xl sm:text-6xl lg:text-8xl font-light tracking-tight mt-6 mb-5 reveal" style="transition-delay: 0.2s">
-          Хил<span class="hero-mark font-medium">Сорт</span>
+        <h1 class="hero-title font-display text-5xl sm:text-6xl lg:text-8xl font-light tracking-tight mt-6 mb-5 reveal" style="transition-delay: 0.2s">
+          ХилСорт
         </h1>
         
         <p class="text-base sm:text-lg md:text-xl text-[var(--fg-soft)] font-light max-w-xl mx-auto leading-relaxed reveal" style="transition-delay: 0.3s; opacity: 0.85;">
@@ -551,7 +578,7 @@
               <img src="mascot.png" alt="Маскот ХилСорт">
             </div>
             <div class="text-center md:text-left">
-              <div class="font-display text-xl font-medium">Хил<span class="hero-mark">Сорт</span></div>
+              <div class="footer-brand font-display text-xl font-medium">ХилСорт</div>
               <div class="text-xs text-[var(--muted)] tracking-wide">Здоровье без возраста</div>
             </div>
           </div>
@@ -583,8 +610,7 @@
   
   toggleBtn.addEventListener('click', () => {
     isDark = !isDark;
-    if (isDark) rootEl.setAttribute('data-theme', 'dark');
-    else rootEl.removeAttribute('data-theme');
+    rootEl.setAttribute('data-theme', isDark ? 'dark' : 'light');
     pGold = isDark ? '201, 165, 92' : '146, 112, 40';
     pCore = isDark ? '232, 212, 160' : '122, 92, 26';
     syncAria();
